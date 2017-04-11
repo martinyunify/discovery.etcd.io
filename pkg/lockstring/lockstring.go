@@ -22,5 +22,3 @@ func (r *LockString) Set(str string) {
 	r.str = str
 	r.Unlock()
 }
-
-

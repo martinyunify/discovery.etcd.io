@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	_ "github.com/coreos/discovery.etcd.io/http"
+	_ "github.com/martinyunify/discovery.etcd.io/http"
 	"github.com/rsc/devweb/slave"
 )
 

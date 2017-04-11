@@ -12,7 +12,7 @@ import (
 
 	"github.com/coreos/go-systemd/activation"
 
-	handling "github.com/coreos/discovery.etcd.io/http"
+	handling "github.com/martinyunify/discovery.etcd.io/http"
 )
 
 func fail(err string) {
@@ -54,10 +54,11 @@ func init() {
 	pflag.StringP("etcd", "e", "http://127.0.0.1:2379", "etcd endpoint location")
 	pflag.StringP("host", "h", "https://discovery.etcd.io", "discovery url prefix")
 	pflag.StringP("addr", "a", ":8087", "web service address")
-
+	pflag.StringP("monitor","m","http://localhost:3000","monitor web server address")
 	viper.BindPFlag("etcd", pflag.Lookup("etcd"))
 	viper.BindPFlag("host", pflag.Lookup("host"))
 	viper.BindPFlag("addr", pflag.Lookup("addr"))
+	viper.BindPFlag("monitor", pflag.Lookup("monitor"))
 
 	pflag.Parse()
 }
@@ -66,8 +67,8 @@ func main() {
 	log.SetFlags(0)
 	etcdHost := mustHostOnlyURL(viper.GetString("etcd"))
 	discHost := mustHostOnlyURL(viper.GetString("host"))
-
-	handling.Setup(etcdHost, discHost)
+	monitorurl := viper.GetString("monitor")
+	handling.Setup(etcdHost, discHost, monitorurl)
 
 	err := http.ListenAndServe(viper.GetString("addr"), nil)
 	if err != nil {

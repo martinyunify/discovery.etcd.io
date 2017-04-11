@@ -13,10 +13,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/coreos/discovery.etcd.io/handlers/httperror"
 	"github.com/coreos/etcd/client"
+	"github.com/martinyunify/discovery.etcd.io/handlers/httperror"
 	"github.com/prometheus/client_golang/prometheus"
 	"golang.org/x/net/context"
+	"strings"
 )
 
 var newCounter *prometheus.CounterVec
@@ -108,7 +109,8 @@ func NewTokenHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Printf("setupToken returned: %v", err)
-		httperror.Error(w, r, "Unable to generate token", 400, newCounter)
+		msg := []string{"Unable to generate token", err.Error()}
+		httperror.Error(w, r, strings.Join(msg, ":"), 400, newCounter)
 		return
 	}
 

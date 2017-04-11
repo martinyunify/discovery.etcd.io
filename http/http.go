@@ -6,20 +6,22 @@ import (
 
 	gorillaHandlers "github.com/gorilla/handlers"
 
-	"github.com/coreos/discovery.etcd.io/handlers"
+	"github.com/martinyunify/discovery.etcd.io/handlers"
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/gorilla/mux"
 )
 
-func Setup(etcdHost, discHost string) {
+func Setup(etcdHost, discHost, monitorurl string) {
 	handlers.Setup(etcdHost, discHost)
+	handlers.SetupMonitorAddr(monitorurl)
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", handlers.HomeHandler)
 	r.HandleFunc("/new", handlers.NewTokenHandler)
 	r.HandleFunc("/health", handlers.HealthHandler)
 	r.HandleFunc("/robots.txt", handlers.RobotsHandler)
+	r.HandleFunc("/monitor", handlers.MonitorHandler)
 
 	// Only allow exact tokens with GETs and PUTs
 	r.HandleFunc("/{token:[a-f0-9]{32}}", handlers.TokenHandler).
@@ -30,6 +32,7 @@ func Setup(etcdHost, discHost string) {
 		Methods("GET", "PUT", "DELETE")
 	r.HandleFunc("/{token:[a-f0-9]{32}}/_config/size", handlers.TokenHandler).
 		Methods("GET")
+
 
 	logH := gorillaHandlers.LoggingHandler(os.Stdout, r)
 

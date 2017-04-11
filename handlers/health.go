@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/coreos/discovery.etcd.io/handlers/httperror"
+	"github.com/martinyunify/discovery.etcd.io/handlers/httperror"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
