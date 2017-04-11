@@ -11,8 +11,8 @@ import (
 	"path"
 	"strconv"
 
-	"github.com/coreos/discovery.etcd.io/handlers/httperror"
-	"github.com/coreos/discovery.etcd.io/pkg/lockstring"
+	"github.com/martinyunify/discovery.etcd.io/handlers/httperror"
+	"github.com/martinyunify/discovery.etcd.io/pkg/lockstring"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
